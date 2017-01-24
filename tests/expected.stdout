@@ -1,0 +1,14 @@
+>Sequence ok
+MFELASSNRIWLDV
+>Sequence mid stop codon
+MFELASRGIWLDV
+>Sequence early ambiguous
+THGDAEMHAESDS
+>Sequence late double ambiguous
+PTHGDAEMHEESLS
+>Sequence invalid codon
+PTHGDAEMHEEMS
+>Sequence triple N
+PTHGDEMHEESMS
+>Sequence non triple codon
+PTHGDEMHEESM

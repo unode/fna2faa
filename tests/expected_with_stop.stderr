@@ -1,0 +1,2 @@
+INFO: Including stop codons
+WARN: Sequence with length not multiple of 3. Last 2 bases ignored on '>Sequence non triple codon'
