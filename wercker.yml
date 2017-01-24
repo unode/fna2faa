@@ -1,0 +1,6 @@
+box: gcc
+build:
+  steps:
+    - script:
+        name: test
+        code: make test

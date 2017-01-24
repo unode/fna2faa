@@ -17,3 +17,5 @@ Authors:
  * [Renato Alves](https://github.com/Unode)
 
 License: GPLv3+
+
+Tests: [![wercker status](https://app.wercker.com/status/b3891e4439e12cc5bca8864fa4f09f63/s/master "wercker status")](https://app.wercker.com/project/byKey/b3891e4439e12cc5bca8864fa4f09f63)
