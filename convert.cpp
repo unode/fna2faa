@@ -1,8 +1,14 @@
 #include <iostream>
+#include <fstream>
+#include <memory>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
+// from http://stackoverflow.com/a/2159469
+struct noop {
+    void operator()(...) const {}
+};
 
 void populate_hash(std::unordered_map<std::string, std::string>& hash, std::string& stop) {
     /*
@@ -280,26 +286,39 @@ int main(int argc, char *argv[]) {
     std::string h, seq, translated;
     std::unordered_map<std::string, std::string> hash;
     std::string stop = "";
+    std::string filename = "";
+    std::shared_ptr<std::istream> file;
+
     int codon = 3;
 
-    if (argc > 2) {
-        std::cout << "Usage: " << argv[0] << " [--include-stop-codons] \n";
-        std::cout << "      Sequences are read from stdin and written to stdout\n";
+    if (argc < 2 || argc > 3) {
+        std::cout << "Usage: " << argv[0] << " [--include-stop-codons] <filename>\n";
+        std::cout << "      Sequences are read from a file (or stdin if filename is '-') and written to stdout\n";
         return 1;
     }
 
-    if (argc == 2) {
-        std::string arg ("--with-stop-codons");
+    if (argc >= 2) {
+        std::string stopcodon ("--with-stop-codons");
 
-        if (arg.compare(argv[1]) == 0) {
+        if (stopcodon.compare(argv[1]) == 0) {
             stop = "*";
             std::cerr << "INFO: Including stop codons\n";
+            filename = argv[2];
+        } else {
+            filename = argv[1];
         }
+    }
+
+    if (filename == "-") {
+        // Reading from stdin
+        file.reset(&std::cin, noop());
+    } else {
+        file.reset(new std::ifstream(filename.c_str()));
     }
 
     populate_hash(hash, stop);
 
-    while (get_sequence(std::cin, h, seq)) {
+    while (get_sequence(*file, h, seq)) {
         std::cout << h << '\n';
 
         int seq_len = seq.length();

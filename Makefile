@@ -15,10 +15,16 @@ run-with-codons: fna2faa
 	cat tests/test.fa | ./fna2faa --with-stop-codons
 
 test: fna2faa
-	@cat tests/test.fa | ./fna2faa > result.stdout 2> result.stderr
+	@cat tests/test.fa | ./fna2faa - > result.stdout 2> result.stderr
 	@diff tests/expected.stdout result.stdout
 	@diff tests/expected.stderr result.stderr
-	@cat tests/test.fa | ./fna2faa --with-stop-codons > result.stdout 2> result.stderr
+	@cat tests/test.fa | ./fna2faa --with-stop-codons - > result.stdout 2> result.stderr
+	@diff tests/expected_with_stop.stdout result.stdout
+	@diff tests/expected_with_stop.stderr result.stderr
+	@./fna2faa tests/test.fa > result.stdout 2> result.stderr
+	@diff tests/expected.stdout result.stdout
+	@diff tests/expected.stderr result.stderr
+	@./fna2faa --with-stop-codons tests/test.fa > result.stdout 2> result.stderr
 	@diff tests/expected_with_stop.stdout result.stdout
 	@diff tests/expected_with_stop.stderr result.stderr
 	@echo "No problems found"
