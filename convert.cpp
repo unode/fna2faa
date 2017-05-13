@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
     int codon = 3;
 
     if (argc < 2 || argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [--include-stop-codons] <filename>\n";
+        std::cout << "Usage: " << argv[0] << " [--with-stop-codons] <filename>\n";
         std::cout << "      Sequences are read from a file (or stdin if filename is '-') and written to stdout\n";
         return 1;
     }
