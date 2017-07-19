@@ -31,3 +31,7 @@ test: fna2faa
 clean:
 	rm -f fna2faa fna2faa-static
 	rm -f result.stdout result.stderr
+
+benchmark:
+	seq 1 8192 | xargs -Inone cat tests/test.fa | /usr/bin/time -v ./fna2faa - 2>&1 | tail -n 23
+	seq 1 8192 | xargs -Inone cat tests/test.fa | /usr/bin/time -v ./fna2faa-static - 2>&1 | tail -n 23
