@@ -58,10 +58,18 @@ clean:
 	rm -f fna2faa fna2faa-static
 	rm -f result.stdout result.stderr
 
-benchmark: fna2faa fna2faa-static
-	@echo ">> Running benchmark by piping 8M sequences for a total of 336T nucleotides <<"
-	@echo ">>>> Standard build <<<<"
-	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
-	@echo ">>>> Static build <<<<"
+benchmark: benchmark-long benchmark-short
+
+benchmark-long: fna2faa fna2faa-static
+	@echo ">> Running benchmark by piping 8 long sequences (343M nucleotides) <<"
+	@echo ">>>> Standard build (long sequences) <<<<"
+	@awk '{if ($$0 !~ /^>/) {for (i=0; i<1000000; i++) print} else {print}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
+	@echo ">>>> Static build (long sequences) <<<<"
 	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa-static --quiet - 1>/dev/null
-	@echo "DONE"
+
+benchmark-short: fna2faa fna2faa-static
+	@echo ">> Running benchmark by piping 8M short sequences (343M nucleotides) <<"
+	@echo ">>>> Standard build (many short sequences) <<<<"
+	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
+	@echo ">>>> Static build (many short sequences) <<<<"
+	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa-static --quiet - 1>/dev/null
