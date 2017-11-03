@@ -421,7 +421,7 @@ int main(int argc, char **argv) {
                 break;
 
             case 'v':
-                fprintf(stderr, "fna2faa: v0.1.0\n");
+                fprintf(stderr, "fna2faa: v0.1.1\n");
                 exit(0);
                 break;
 
