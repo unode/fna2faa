@@ -1,96 +1,96 @@
->Sequence ok
+>Sequence ok:0:0
 MFELASSNRIWLDV
->Sequence ok
+>Sequence ok:1:0
 CSS*LARIEYGST
->Sequence ok
+>Sequence ok:2:0
 VRAS*LESNMARR
->Sequence ok
+>Sequence ok:0:1
 DVEPYSIRAS*LEH
->Sequence ok
+>Sequence ok:1:1
 CSS*LARIEYGST
->Sequence ok
+>Sequence ok:2:1
 RRAIFDSS*LART
->Sequence ok RNA
+>Sequence ok RNA:0:0
 MFELASSNRIWLDV
->Sequence ok RNA
+>Sequence ok RNA:1:0
 CSS*LARIEYGST
->Sequence ok RNA
+>Sequence ok RNA:2:0
 VRAS*LESNMARR
->Sequence ok RNA
+>Sequence ok RNA:0:1
 DVEPYSIRAS*LEH
->Sequence ok RNA
+>Sequence ok RNA:1:1
 CSS*LARIEYGST
->Sequence ok RNA
+>Sequence ok RNA:2:1
 RRAIFDSS*LART
->Sequence mid stop codon
+>Sequence mid stop codon:0:0
 MFELAS*RGIWLDV
->Sequence mid stop codon
+>Sequence mid stop codon:1:0
 CSS*LAREEYGST
->Sequence mid stop codon
+>Sequence mid stop codon:2:0
 VRAS*LERNMARR
->Sequence mid stop codon
+>Sequence mid stop codon:0:1
 DVEPYSSLAS*LEH
->Sequence mid stop codon
+>Sequence mid stop codon:1:1
 CSS*LAREEYGST
->Sequence mid stop codon
+>Sequence mid stop codon:2:1
 RRAIFLSS*LART
->Sequence early ambiguous
+>Sequence early ambiguous:0:0
 XTHGDAEMHAESDS
->Sequence early ambiguous
+>Sequence early ambiguous:1:0
 XLMGMQRCMQKVT
->Sequence early ambiguous
+>Sequence early ambiguous:2:0
 NSWGCRDACRK*L
->Sequence early ambiguous
+>Sequence early ambiguous:0:1
 *VTFCMHLCIPMSX
->Sequence early ambiguous
+>Sequence early ambiguous:1:1
 XLMGMQRCMQKVT
->Sequence early ambiguous
+>Sequence early ambiguous:2:1
 SHFLHASLHPHEL
->Sequence late double ambiguous
+>Sequence late double ambiguous:0:0
 PTHGDAEMHEESLS
->Sequence late double ambiguous
+>Sequence late double ambiguous:1:0
 QLMGMQRCMKKVX
->Sequence late double ambiguous
+>Sequence late double ambiguous:2:0
 NSWGCRDA*RKXX
->Sequence late double ambiguous
+>Sequence late double ambiguous:0:1
 *XTFFMHLCIPMSW
->Sequence late double ambiguous
+>Sequence late double ambiguous:1:1
 QLMGMQRCMKKVX
->Sequence late double ambiguous
+>Sequence late double ambiguous:2:1
 XXFLHASLHPHEL
->Sequence invalid codon
+>Sequence invalid codon:0:0
 PTHGDAEMHEEXMS
->Sequence invalid codon
+>Sequence invalid codon:1:0
 QLMGMQRCMKXVC
->Sequence invalid codon
+>Sequence invalid codon:2:0
 NSWGCRDA*RXYV
->Sequence invalid codon
+>Sequence invalid codon:0:1
 *HTFFMHLCIPMSW
->Sequence invalid codon
+>Sequence invalid codon:1:1
 QLMGMQRCMKXVC
->Sequence invalid codon
+>Sequence invalid codon:2:1
 TYXLHASLHPHEL
->Sequence triple N
+>Sequence triple N:0:0
 PTHGDEMXHEESMS
->Sequence triple N
+>Sequence triple N:1:0
 QLMGMRXXMKKVC
->Sequence triple N
+>Sequence triple N:2:0
 NSWG*DXX*RKYV
->Sequence triple N
+>Sequence triple N:0:1
 *HTFFMXHLIPMSW
->Sequence triple N
+>Sequence triple N:1:1
 QLMGMRXXMKKVC
->Sequence triple N
+>Sequence triple N:2:1
 TYFLHXXSHPHEL
->Sequence non triple codon
+>Sequence non triple codon:0:0
 PTHGDEMXHEESM
->Sequence non triple codon
+>Sequence non triple codon:1:0
 QLMGMRXXMKKVC
->Sequence non triple codon
+>Sequence non triple codon:2:0
 NSWG*DXX*RKYV
->Sequence non triple codon
+>Sequence non triple codon:0:1
 DILSSXXISSP*V
->Sequence non triple codon
+>Sequence non triple codon:1:1
 QLMGMRXXMKKVC
->Sequence non triple codon
+>Sequence non triple codon:2:1
 HTFFMXHLIPMSW

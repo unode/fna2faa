@@ -553,7 +553,10 @@ int main(int argc, char **argv) {
                 if (verbose)
                     fprintf(stderr, "WARN: Sequence with length not multiple of 3. Last %i bases ignored on '%s'\n", rem_i, h.c_str());
 
-            std::cout << h << '\n';
+            if (do_all_frames)
+                std::cout << h << ':' << active_frame << ':' << direction << '\n';
+            else
+                std::cout << h << '\n';
 
             if (halt_on_stop) {
                 // Need to check every aminoacid translated
