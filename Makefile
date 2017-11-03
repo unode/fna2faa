@@ -1,18 +1,16 @@
 .PHONY: static clean
 
-fna2faa: convert.cpp
-	g++ -std=c++11 -O2 -o fna2faa convert.cpp
+fna2faa: fna2faa.cpp
+	g++ -std=c++11 -O3 -o fna2faa fna2faa.cpp
+	strip fna2faa
 
 static: fna2faa-static
-fna2faa-static: convert.cpp
-	g++ -std=c++11 -O2 -static -o fna2faa-static convert.cpp
+fna2faa-static: fna2faa.cpp
+	g++ -std=c++11 -O3 -static -o fna2faa-static fna2faa.cpp
 	strip fna2faa-static
 
 run: fna2faa
-	cat tests/test.fa | ./fna2faa
-
-run-with-codons: fna2faa
-	cat tests/test.fa | ./fna2faa --with-stop-codons
+	cat tests/test.fa | ./fna2faa -
 
 test: fna2faa
 	@echo -n "Translating default from file ... "
@@ -60,6 +58,10 @@ clean:
 	rm -f fna2faa fna2faa-static
 	rm -f result.stdout result.stderr
 
-benchmark:
-	seq 1 8192 | xargs -Inone cat tests/test.fa | /usr/bin/time -v ./fna2faa - 2>&1 | tail -n 23
-	seq 1 8192 | xargs -Inone cat tests/test.fa | /usr/bin/time -v ./fna2faa-static - 2>&1 | tail -n 23
+benchmark: fna2faa fna2faa-static
+	@echo ">> Running benchmark by piping 8M sequences for a total of 336T nucleotides <<"
+	@echo ">>>> Standard build <<<<"
+	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
+	@echo ">>>> Static build <<<<"
+	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa-static --quiet - 1>/dev/null
+	@echo "DONE"
