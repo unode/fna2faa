@@ -1,14 +1,16 @@
 >Sequence ok
-MFELASSNRIWLDV
+CSS*LARIEYGST
+>Sequence ok RNA
+CSS*LARIEYGST
 >Sequence mid stop codon
-MFELAS*RGIWLDV
+CSS*LAREEYGST
 >Sequence early ambiguous
-THGDAEMHAESDS
+XLMGMQRCMQKVT
 >Sequence late double ambiguous
-PTHGDAEMHEESLS
+QLMGMQRCMKKVX
 >Sequence invalid codon
-PTHGDAEMHEEMS
+QLMGMQRCMKXVC
 >Sequence triple N
-PTHGDEMHEESMS
+QLMGMRXXMKKVC
 >Sequence non triple codon
-PTHGDEMHEESM
+QLMGMRXXMKKVC

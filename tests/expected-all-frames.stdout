@@ -1,0 +1,96 @@
+>Sequence ok
+MFELASSNRIWLDV
+>Sequence ok
+CSS*LARIEYGST
+>Sequence ok
+VRAS*LESNMARR
+>Sequence ok
+DVEPYSIRAS*LEH
+>Sequence ok
+CSS*LARIEYGST
+>Sequence ok
+RRAIFDSS*LART
+>Sequence ok RNA
+MFELASSNRIWLDV
+>Sequence ok RNA
+CSS*LARIEYGST
+>Sequence ok RNA
+VRAS*LESNMARR
+>Sequence ok RNA
+DVEPYSIRAS*LEH
+>Sequence ok RNA
+CSS*LARIEYGST
+>Sequence ok RNA
+RRAIFDSS*LART
+>Sequence mid stop codon
+MFELAS*RGIWLDV
+>Sequence mid stop codon
+CSS*LAREEYGST
+>Sequence mid stop codon
+VRAS*LERNMARR
+>Sequence mid stop codon
+DVEPYSSLAS*LEH
+>Sequence mid stop codon
+CSS*LAREEYGST
+>Sequence mid stop codon
+RRAIFLSS*LART
+>Sequence early ambiguous
+XTHGDAEMHAESDS
+>Sequence early ambiguous
+XLMGMQRCMQKVT
+>Sequence early ambiguous
+NSWGCRDACRK*L
+>Sequence early ambiguous
+*VTFCMHLCIPMSX
+>Sequence early ambiguous
+XLMGMQRCMQKVT
+>Sequence early ambiguous
+SHFLHASLHPHEL
+>Sequence late double ambiguous
+PTHGDAEMHEESLS
+>Sequence late double ambiguous
+QLMGMQRCMKKVX
+>Sequence late double ambiguous
+NSWGCRDA*RKXX
+>Sequence late double ambiguous
+*XTFFMHLCIPMSW
+>Sequence late double ambiguous
+QLMGMQRCMKKVX
+>Sequence late double ambiguous
+XXFLHASLHPHEL
+>Sequence invalid codon
+PTHGDAEMHEEXMS
+>Sequence invalid codon
+QLMGMQRCMKXVC
+>Sequence invalid codon
+NSWGCRDA*RXYV
+>Sequence invalid codon
+*HTFFMHLCIPMSW
+>Sequence invalid codon
+QLMGMQRCMKXVC
+>Sequence invalid codon
+TYXLHASLHPHEL
+>Sequence triple N
+PTHGDEMXHEESMS
+>Sequence triple N
+QLMGMRXXMKKVC
+>Sequence triple N
+NSWG*DXX*RKYV
+>Sequence triple N
+*HTFFMXHLIPMSW
+>Sequence triple N
+QLMGMRXXMKKVC
+>Sequence triple N
+TYFLHXXSHPHEL
+>Sequence non triple codon
+PTHGDEMXHEESM
+>Sequence non triple codon
+QLMGMRXXMKKVC
+>Sequence non triple codon
+NSWG*DXX*RKYV
+>Sequence non triple codon
+DILSSXXISSP*V
+>Sequence non triple codon
+QLMGMRXXMKKVC
+>Sequence non triple codon
+HTFFMXHLIPMSW

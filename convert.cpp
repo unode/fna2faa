@@ -3,14 +3,18 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <unordered_map>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
 
 // from http://stackoverflow.com/a/2159469
 struct noop {
     void operator()(...) const {}
 };
 
-void populate_hash(std::unordered_map<std::string, std::string>& hash, std::string& stop) {
+void populate_translate_hash(std::unordered_map<std::string, std::string>& hash, std::string& stop, std::string& bogus) {
     /*
      * Translation with ambiguity codes
      *
@@ -273,6 +277,67 @@ void populate_hash(std::unordered_map<std::string, std::string>& hash, std::stri
     hash.emplace("GGB", "G");
     hash.emplace("GGX", "G");
     hash.emplace("GGN", "G");
+
+    // add all untranslatable codons to the hash as X, includes uracyl
+    std::string nucleotides = "ABCDGHKMNRSTUVWXY";
+
+    // TODO This could probably be more elegant but 3 loops get the job done
+    for(std::string::const_iterator a = nucleotides.begin(); a < nucleotides.end(); ++a) {
+        for(std::string::const_iterator b = nucleotides.begin(); b < nucleotides.end(); ++b) {
+            for(std::string::const_iterator c = nucleotides.begin(); c < nucleotides.end(); ++c) {
+                char codon[] = {*a, *b, *c, 0};
+                hash.emplace(codon, "X");
+            }
+        }
+    }
+}
+
+void populate_complement_hash(std::unordered_map<std::string, std::string>& hash) {
+    /*
+     * Complementation with ambiguity codes
+     *
+     * A            A           ->        T           = T
+     * C            C           ->        G           = G
+     * G            G           ->        C           = C
+     * T            T           ->        A           = A
+     * U            U           ->        A           = A
+     * M          A or C        ->      T or G        = K
+     * R          A or G        ->      T or C        = Y
+     * W          A or T        ->      T or A        = W
+     * S          C or G        ->      G or C        = S
+     * Y          C or T        ->      G or A        = R
+     * K          G or T        ->      C or A        = M
+     * V        A or C or G     ->    T or G or C     = B
+     * H        A or C or T     ->    T or G or A     = D
+     * D        A or G or T     ->    T or C or A     = H
+     * B        C or G or T     ->    G or C or A     = V
+     * X      G or A or T or C  ->  C or T or A or G  = X
+     * N      G or A or T or C  ->  C or T or A or G  = N
+     *
+     */
+
+    // Standard ones
+    hash.emplace("A", "T");
+    hash.emplace("T", "A");
+    hash.emplace("C", "G");
+    hash.emplace("G", "C");
+
+    // Uracyl becomes A
+    hash.emplace("U", "A");
+
+    // And all the ambiguous ones
+    hash.emplace("M", "K");
+    hash.emplace("R", "Y");
+    hash.emplace("W", "W");
+    hash.emplace("S", "S");
+    hash.emplace("Y", "R");
+    hash.emplace("K", "M");
+    hash.emplace("V", "B");
+    hash.emplace("H", "D");
+    hash.emplace("D", "H");
+    hash.emplace("B", "V");
+    hash.emplace("X", "X");
+    hash.emplace("N", "N");
 }
 
 bool get_sequence(std::istream& input, std::string& header, std::string& seq) {
@@ -286,57 +351,228 @@ bool get_sequence(std::istream& input, std::string& header, std::string& seq) {
     return true;
 }
 
-int main(int argc, char *argv[]) {
-    std::string h, seq, translated;
-    std::unordered_map<std::string, std::string> hash;
-    std::string stop = "";
+void set_frame_and_direction(int frame, int &active_frame, int &direction) {
+    direction = frame / 3;  // 0 = 0-2 ; 1 = 3-5
+    active_frame = frame % 3;
+}
+
+void show_usage(char **argv) {
+    fprintf(stderr, "Usage: %s [options] <filename or - for STDIN>\n", argv[0]);
+    fprintf(stderr, "  About:\n");
+    fprintf(stderr, "    Translates nucleotides (DNA & RNA) to aminoacid sequences\n");
+    fprintf(stderr, "    This software can translate sequences that use IUPAC ambiguity codes\n");
+    fprintf(stderr, "    Defaults to translating the first frame in -> direction, doesn't stop on\n");
+    fprintf(stderr, "    stop codons, uses * as STOP symbol and X for untranslatable codons.\n");
+    fprintf(stderr, "\n  Options:\n");
+    fprintf(stderr, "    -h --help           - Show this message\n");
+    fprintf(stderr, "    -v --version        - Print version and exit\n");
+    fprintf(stderr, "    -q --quiet          - Silence warning messages\n");
+    fprintf(stderr, "    -a --all_frames     - Output translation for all frames\n");
+    fprintf(stderr, "    -f --frame i        - Specify which frame to output (0, 1, 2, 3, 4, 5)\n");
+    fprintf(stderr, "                          Frames 0-2 are -> strand, 3-5 are <-.\n");
+    fprintf(stderr, "    -s --first_stop     - Stop translation when first stop codon is found\n");
+    fprintf(stderr, "    -t --stop_codon     - Character to use as stop symbol, * by default\n");
+    fprintf(stderr, "    -n --no_bogus       - Skips untranslatable codons instead of printing X\n");
+}
+
+int main(int argc, char **argv) {
+    std::string h, allseq, seq, translated;
+    std::unordered_map<std::string, std::string> translate_hash;
+    std::unordered_map<std::string, std::string> complement_hash;
+    std::string stop = "*";
+    std::string bogus = "X";
     std::string filename = "";
     std::shared_ptr<std::istream> file;
 
+    int do_all_frames = 0;  // one frame only by default
+    int active_frame, frame = 0;  // default 1st frame
+    int direction = 0;  // default forward
+    // Used during iteration
+    int start_frame, end_frame = 0;
     int codon = 3;
+    int halt_on_stop = 0;
+    int verbose = 1;
+    int show_help = 0;
 
-    if (argc < 2 || argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [--with-stop-codons] <filename>\n";
-        std::cout << "      Sequences are read from a file (or stdin if filename is '-') and written to stdout\n";
-        return 1;
+    struct option long_options[] = {
+        {"help",         no_argument,       NULL, 'h'},
+        {"version",      no_argument,       NULL, 'v'},
+        {"quiet",        no_argument,       NULL, 'q'},
+        {"first_stop",   no_argument,       NULL, 's'},
+        {"no_bogus",     no_argument,       NULL, 'b'},
+        {"all_frames",   no_argument,       NULL, 'a'},
+        {"frame",        required_argument, NULL, 'f'},
+        {"stop",         required_argument, NULL, 't'},
+        {NULL,           0,                 NULL, 0}
+    };
+
+    int c;
+    opterr = 0;
+
+    while ( ( c = getopt_long(argc, argv, ":hvqsaf:t:", long_options, NULL) ) != -1) {
+
+        switch (c) {
+            case 'f':
+                frame = atoi(optarg);
+                break;
+
+            case 'h':
+                show_help = 1;
+                break;
+
+            case 'v':
+                fprintf(stderr, "fna2faa: v0.1.0\n");
+                exit(0);
+                break;
+
+            case 's':
+                halt_on_stop = 1;
+                break;
+
+            case 't':
+                stop = optarg;
+                break;
+
+            case 'a':
+                do_all_frames = 1;
+                break;
+
+            case 'q':
+                verbose = 0;
+                break;
+
+            case 'b':
+                bogus = "";
+                break;
+
+            case ':':   /* missing option argument */
+                show_usage(argv);
+                fprintf(stderr, "\nERROR: option `-%c' requires an argument\n", optopt);
+                exit(1);
+
+            case '?':
+                show_usage(argv);
+                fprintf(stderr, "\nERROR: unknown option '-%c'\n", optopt);
+                exit(1);
+
+            default:
+                show_usage(argv);
+                exit(1);
+                break;
+        }
     }
 
-    if (argc >= 2) {
-        std::string stopcodon ("--with-stop-codons");
+    if (show_help) {
+        show_usage(argv);
+        exit(0);
+    };
 
-        if (stopcodon.compare(argv[1]) == 0) {
-            stop = "*";
-            std::cerr << "INFO: Including stop codons\n";
-            filename = argv[2];
-        } else {
-            filename = argv[1];
-        }
+    /* Print any remaining command line arguments (not options). */
+    if (argc - optind != 1) {
+        show_usage(argv);
+        fprintf(stderr, "\nERROR: Require one filename (or - to read from STDIN)\n");
+        exit(1);
+    }
+
+    filename = argv[optind];
+
+    if (frame < 0 || frame > 5) {
+        show_usage(argv);
+        fprintf(stderr, "\nERROR: Start frame (%i) is not in range 0 to 5\n", frame);
+        fprintf(stderr, "\nNOTE: 0-2 is forward strand, 3-5 is reverse strand\n");
+        exit(1);
+    }
+
+    if (do_all_frames) {
+        start_frame = 0;
+        end_frame = 5;  // inclusive
+    } else {
+        start_frame = frame;
+        end_frame = frame;
     }
 
     if (filename == "-") {
         // Reading from stdin
         file.reset(&std::cin, noop());
     } else {
+        std::ifstream input_file(filename.c_str());
+        if (! input_file.good()) {
+            fprintf(stderr, "ERROR: Cannot read %s\n", filename.c_str());
+        }
+        input_file.close();
         file.reset(new std::ifstream(filename.c_str()));
     }
 
-    populate_hash(hash, stop);
-
-    while (get_sequence(*file, h, seq)) {
-        std::cout << h << '\n';
-
-        int seq_len = seq.length();
-        int rem_i = seq_len % codon;
-        seq = seq.substr(0, seq_len - rem_i);
-
-        if (rem_i > 0)
-            std::cerr << "WARN: Sequence with length not multiple of 3. Last " << rem_i << " bases ignored on '" << h << "'\n";
-
-        for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
-            char codon[] = {*it, *(it+1), *(it+2), 0};
-            std::cout << hash[codon];
+    if (verbose) {
+        if (do_all_frames) {
+            fprintf(stderr, "Output will include all frames\n");
+        } else {
+            set_frame_and_direction(frame, active_frame, direction);
+            if (direction)
+                fprintf(stderr, "Will translate frame %i on strand <-\n", active_frame);
+            else
+                fprintf(stderr, "Will translate frame %i on strand ->\n", active_frame);
         }
+        if (halt_on_stop)
+            fprintf(stderr, "Will stop on first stop codon of each sequence\n");
 
-        std::cout << '\n';
+        fprintf(stderr, "Using %s as stop symbol\n", stop.c_str());
+
+        if (filename == "-") {
+            fprintf(stderr, "Reading from STDIN\n");
+        } else {
+            fprintf(stderr, "Reading from %s\n", filename.c_str());
+        }
+    }
+
+    populate_translate_hash(translate_hash, stop, bogus);
+    populate_complement_hash(complement_hash);
+
+    while (get_sequence(*file, h, allseq)) {
+        for (int frame = start_frame; frame <= end_frame; ++frame) {
+            // Recalculate frame and direction based on current frame
+            set_frame_and_direction(frame, active_frame, direction);
+
+            // Reverse complement current sequence
+            if (direction) {
+                std::string revseq = "";
+                for(std::string::const_iterator it = allseq.begin(); it < allseq.end(); ++it) {
+                    char base[] = {*it, 0};
+                    revseq += complement_hash[base];
+                }
+                std::reverse(revseq.begin(), revseq.end());
+                allseq = revseq;
+            }
+
+            // truncate sequence to have multiples of 3
+            int seq_len = allseq.length();
+            int rem_i = (seq_len - active_frame) % codon;
+            seq = allseq.substr(active_frame, seq_len - rem_i);
+
+            if (rem_i > 0)
+                if (verbose)
+                    fprintf(stderr, "WARN: Sequence with length not multiple of 3. Last %i bases ignored on '%s'\n", rem_i, h.c_str());
+
+            std::cout << h << '\n';
+
+            if (halt_on_stop) {
+                // Need to check every aminoacid translated
+                for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
+                    char codon[] = {*it, *(it+1), *(it+2), 0};
+                    std::string aa = translate_hash[codon];
+                    std::cout << aa;
+
+                    if (aa == stop)
+                        break;
+                }
+            } else {
+                for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
+                    char codon[] = {*it, *(it+1), *(it+2), 0};
+                    std::cout << translate_hash[codon];
+                }
+            }
+
+            std::cout << '\n';
+        }
     }
 }
