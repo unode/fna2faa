@@ -387,6 +387,7 @@ int main(int argc, char **argv) {
     int do_all_frames = 0;  // one frame only by default
     int active_frame, frame = 0;  // default 1st frame
     int direction = 0;  // default forward
+    int not_inverted = 0;  // with 6 frame translation we can't invert at every frame switch
     // Used during iteration
     int start_frame, end_frame = 0;
     int codon = 3;
@@ -529,12 +530,16 @@ int main(int argc, char **argv) {
     populate_complement_hash(complement_hash);
 
     while (get_sequence(*file, h, allseq)) {
+        not_inverted = 1;
+
         for (int frame = start_frame; frame <= end_frame; ++frame) {
             // Recalculate frame and direction based on current frame
             set_frame_and_direction(frame, active_frame, direction);
 
-            // Reverse complement current sequence
-            if (direction) {
+            // Reverse complement current sequence but only if it wasn't inverted before
+            // otherwise
+            if (direction && not_inverted) {
+                not_inverted = 0;
                 std::string revseq = "";
                 for(std::string::const_iterator it = allseq.begin(); it < allseq.end(); ++it) {
                     char base[] = {*it, 0};

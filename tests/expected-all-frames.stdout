@@ -7,7 +7,7 @@ VRAS*LESNMARR
 >Sequence ok:0:1
 DVEPYSIRAS*LEH
 >Sequence ok:1:1
-CSS*LARIEYGST
+TSSHIRFELASSN
 >Sequence ok:2:1
 RRAIFDSS*LART
 >Sequence ok RNA:0:0
@@ -19,7 +19,7 @@ VRAS*LESNMARR
 >Sequence ok RNA:0:1
 DVEPYSIRAS*LEH
 >Sequence ok RNA:1:1
-CSS*LARIEYGST
+TSSHIRFELASSN
 >Sequence ok RNA:2:1
 RRAIFDSS*LART
 >Sequence mid stop codon:0:0
@@ -31,7 +31,7 @@ VRAS*LERNMARR
 >Sequence mid stop codon:0:1
 DVEPYSSLAS*LEH
 >Sequence mid stop codon:1:1
-CSS*LAREEYGST
+TSSHIPL*LASSN
 >Sequence mid stop codon:2:1
 RRAIFLSS*LART
 >Sequence early ambiguous:0:0
@@ -43,7 +43,7 @@ NSWGCRDACRK*L
 >Sequence early ambiguous:0:1
 *VTFCMHLCIPMSX
 >Sequence early ambiguous:1:1
-XLMGMQRCMQKVT
+ESLSACISASP*V
 >Sequence early ambiguous:2:1
 SHFLHASLHPHEL
 >Sequence late double ambiguous:0:0
@@ -55,7 +55,7 @@ NSWGCRDA*RKXX
 >Sequence late double ambiguous:0:1
 *XTFFMHLCIPMSW
 >Sequence late double ambiguous:1:1
-QLMGMQRCMKKVX
+DXLSSCISASP*V
 >Sequence late double ambiguous:2:1
 XXFLHASLHPHEL
 >Sequence invalid codon:0:0
@@ -67,7 +67,7 @@ NSWGCRDA*RXYV
 >Sequence invalid codon:0:1
 *HTFFMHLCIPMSW
 >Sequence invalid codon:1:1
-QLMGMQRCMKXVC
+DIXSSCISASP*V
 >Sequence invalid codon:2:1
 TYXLHASLHPHEL
 >Sequence triple N:0:0
@@ -79,7 +79,7 @@ NSWG*DXX*RKYV
 >Sequence triple N:0:1
 *HTFFMXHLIPMSW
 >Sequence triple N:1:1
-QLMGMRXXMKKVC
+DILSSXXISSP*V
 >Sequence triple N:2:1
 TYFLHXXSHPHEL
 >Sequence non triple codon:0:0
@@ -91,6 +91,6 @@ NSWG*DXX*RKYV
 >Sequence non triple codon:0:1
 DILSSXXISSP*V
 >Sequence non triple codon:1:1
-QLMGMRXXMKKVC
+TYFLHXXSHPHEL
 >Sequence non triple codon:2:1
 HTFFMXHLIPMSW
