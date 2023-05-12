@@ -376,7 +376,7 @@ void show_usage(char **argv) {
 }
 
 int main(int argc, char **argv) {
-    std::string h, allseq, seq, translated;
+    std::string h, seq, translated;
     std::unordered_map<std::string, char> translate_hash;
     std::unordered_map<char,        char> complement_hash;
     char stop = '*';
@@ -529,7 +529,7 @@ int main(int argc, char **argv) {
     populate_translate_hash(translate_hash, stop, bogus);
     populate_complement_hash(complement_hash);
 
-    while (get_sequence(*file, h, allseq)) {
+    while (get_sequence(*file, h, seq)) {
         not_inverted = 1;
 
         for (int frame = start_frame; frame <= end_frame; ++frame) {
@@ -541,31 +541,29 @@ int main(int argc, char **argv) {
             if (direction && not_inverted) {
                 not_inverted = 0;
                 std::string revseq;
-                revseq.reserve(allseq.size());
-                for(std::string::const_iterator it = allseq.begin(); it < allseq.end(); ++it) {
+                revseq.reserve(seq.size());
+                for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it) {
                     revseq += complement_hash[*it];
                 }
                 std::reverse(revseq.begin(), revseq.end());
-                allseq = revseq;
+                seq.swap(revseq);
             }
 
-            // truncate sequence to have multiples of 3
-            int seq_len = allseq.length();
-            int rem_i = (seq_len - active_frame) % codon;
-            seq = allseq.substr(active_frame, seq_len - rem_i);
 
-            if (rem_i > 0)
-                if (verbose)
-                    fprintf(stderr, "WARN: Sequence with length not multiple of 3. Last %i bases ignored on '%s'\n", rem_i, h.c_str());
+            const unsigned extra_bases = (seq.length() - active_frame) % 3;
+            if (extra_bases && verbose) {
+                fprintf(stderr, "WARN: Sequence with length not multiple of 3. Last %u bases ignored on '%s'\n",
+                                    extra_bases,
+                                    h.c_str());
+            }
 
             if (do_all_frames)
                 std::cout << h << ':' << active_frame << ':' << direction << '\n';
             else
                 std::cout << h << '\n';
 
-            for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
-                char codon[] = {*it, *(it+1), *(it+2), 0};
-                const char aa = translate_hash[codon];
+            for (unsigned i = active_frame; i < seq.size() - 2; i += 3) {
+                const char aa = translate_hash[seq.substr(i, 3)];
                 // '\0' is used to skip bogus
                 if (aa != '\0') std::cout << aa;
                 // Need to check every aminoacid translated
