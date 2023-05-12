@@ -14,7 +14,7 @@ struct noop {
     void operator()(...) const {}
 };
 
-void populate_translate_hash(std::unordered_map<std::string, std::string>& hash, std::string& stop, std::string& bogus) {
+void populate_translate_hash(std::unordered_map<std::string, char>& hash, char stop, char bogus) {
     /*
      * Translation with ambiguity codes
      *
@@ -38,245 +38,245 @@ void populate_translate_hash(std::unordered_map<std::string, std::string>& hash,
      *
      */
 
-    hash.emplace("TCA", "S"); hash.emplace("UCA", "S");
-    hash.emplace("TCC", "S"); hash.emplace("UCC", "S");
-    hash.emplace("TCG", "S"); hash.emplace("UCG", "S");
-    hash.emplace("TCT", "S"); hash.emplace("UCU", "S"); hash.emplace("TCU", "S"); hash.emplace("UCT", "S");
+    hash.emplace("TCA", 'S'); hash.emplace("UCA", 'S');
+    hash.emplace("TCC", 'S'); hash.emplace("UCC", 'S');
+    hash.emplace("TCG", 'S'); hash.emplace("UCG", 'S');
+    hash.emplace("TCT", 'S'); hash.emplace("UCU", 'S'); hash.emplace("TCU", 'S'); hash.emplace("UCT", 'S');
     // ambiguous 3rd base
-    hash.emplace("TCM", "S"); hash.emplace("UCM", "S");
-    hash.emplace("TCR", "S"); hash.emplace("UCR", "S");
-    hash.emplace("TCW", "S"); hash.emplace("UCW", "S");
-    hash.emplace("TCS", "S"); hash.emplace("UCS", "S");
-    hash.emplace("TCY", "S"); hash.emplace("UCY", "S");
-    hash.emplace("TCK", "S"); hash.emplace("UCK", "S");
-    hash.emplace("TCV", "S"); hash.emplace("UCV", "S");
-    hash.emplace("TCH", "S"); hash.emplace("UCH", "S");
-    hash.emplace("TCD", "S"); hash.emplace("UCD", "S");
-    hash.emplace("TCB", "S"); hash.emplace("UCB", "S");
-    hash.emplace("TCX", "S"); hash.emplace("UCX", "S");
-    hash.emplace("TCN", "S"); hash.emplace("UCN", "S");
+    hash.emplace("TCM", 'S'); hash.emplace("UCM", 'S');
+    hash.emplace("TCR", 'S'); hash.emplace("UCR", 'S');
+    hash.emplace("TCW", 'S'); hash.emplace("UCW", 'S');
+    hash.emplace("TCS", 'S'); hash.emplace("UCS", 'S');
+    hash.emplace("TCY", 'S'); hash.emplace("UCY", 'S');
+    hash.emplace("TCK", 'S'); hash.emplace("UCK", 'S');
+    hash.emplace("TCV", 'S'); hash.emplace("UCV", 'S');
+    hash.emplace("TCH", 'S'); hash.emplace("UCH", 'S');
+    hash.emplace("TCD", 'S'); hash.emplace("UCD", 'S');
+    hash.emplace("TCB", 'S'); hash.emplace("UCB", 'S');
+    hash.emplace("TCX", 'S'); hash.emplace("UCX", 'S');
+    hash.emplace("TCN", 'S'); hash.emplace("UCN", 'S');
 
-    hash.emplace("TTC", "F"); hash.emplace("UUC", "F"); hash.emplace("TUC", "F"); hash.emplace("UTC", "F");
-    // All permutations of TTT -> UUU (8 in total)
-    hash.emplace("TTT", "F"); hash.emplace("UUU", "F");
-    hash.emplace("TTU", "F"); hash.emplace("TUT", "F"); hash.emplace("UTT", "F");
-    hash.emplace("UUT", "F"); hash.emplace("UTU", "F"); hash.emplace("TUU", "F");
+    hash.emplace("TTC", 'F'); hash.emplace("UUC", 'F'); hash.emplace("TUC", 'F'); hash.emplace("UTC", 'F');
+    // All permutations of TTT -> UUU (8 in total)'
+    hash.emplace("TTT", 'F'); hash.emplace("UUU", 'F');
+    hash.emplace("TTU", 'F'); hash.emplace("TUT", 'F'); hash.emplace("UTT", 'F');
+    hash.emplace("UUT", 'F'); hash.emplace("UTU", 'F'); hash.emplace("TUU", 'F');
 
     // ambiguous 3rd base
-    hash.emplace("TTY", "F"); hash.emplace("UUY", "F"); hash.emplace("TUY", "F"); hash.emplace("UTY", "F");
+    hash.emplace("TTY", 'F'); hash.emplace("UUY", 'F'); hash.emplace("TUY", 'F'); hash.emplace("UTY", 'F');
 
-    hash.emplace("TTA", "L"); hash.emplace("UUA", "L"); hash.emplace("TUA", "L"); hash.emplace("UTA", "L");
-    hash.emplace("TTG", "L"); hash.emplace("UUG", "L"); hash.emplace("TUG", "L"); hash.emplace("UTG", "L");
+    hash.emplace("TTA", 'L'); hash.emplace("UUA", 'L'); hash.emplace("TUA", 'L'); hash.emplace("UTA", 'L');
+    hash.emplace("TTG", 'L'); hash.emplace("UUG", 'L'); hash.emplace("TUG", 'L'); hash.emplace("UTG", 'L');
     // ambiguous 3rd base
-    hash.emplace("TTR", "L"); hash.emplace("UUR", "L"); hash.emplace("TUR", "L"); hash.emplace("UTR", "L");
+    hash.emplace("TTR", 'L'); hash.emplace("UUR", 'L'); hash.emplace("TUR", 'L'); hash.emplace("UTR", 'L');
 
-    hash.emplace("TAC", "Y"); hash.emplace("UAC", "Y");
-    hash.emplace("TAT", "Y"); hash.emplace("UAU", "Y"); hash.emplace("TAU", "Y"); hash.emplace("UAT", "Y");
+    hash.emplace("TAC", 'Y'); hash.emplace("UAC", 'Y');
+    hash.emplace("TAT", 'Y'); hash.emplace("UAU", 'Y'); hash.emplace("TAU", 'Y'); hash.emplace("UAT", 'Y');
     // ambiguous 3rd base
-    hash.emplace("TAY", "Y"); hash.emplace("UAY", "Y");
+    hash.emplace("TAY", 'Y'); hash.emplace("UAY", 'Y');
 
     hash.emplace("TAA", stop); hash.emplace("UAA", stop);
     hash.emplace("TAG", stop); hash.emplace("UAG", stop);
     // ambiguous 3rd base
     hash.emplace("TAR", stop); hash.emplace("UAR", stop);
 
-    hash.emplace("TGC", "C"); hash.emplace("UGC", "C");
-    hash.emplace("TGT", "C"); hash.emplace("UGU", "C"); hash.emplace("TGU", "C"); hash.emplace("UGT", "C");
+    hash.emplace("TGC", 'C'); hash.emplace("UGC", 'C');
+    hash.emplace("TGT", 'C'); hash.emplace("UGU", 'C'); hash.emplace("TGU", 'C'); hash.emplace("UGT", 'C');
     // ambiguous 3rd base
-    hash.emplace("TGY", "C"); hash.emplace("UGY", "C");
+    hash.emplace("TGY", 'C'); hash.emplace("UGY", 'C');
 
     hash.emplace("TGA", stop); hash.emplace("UGA", stop);
     // ambiguous 2rd base
     hash.emplace("TRA", stop); hash.emplace("URA", stop);
 
-    hash.emplace("TGG", "W"); hash.emplace("UGG", "W");
+    hash.emplace("TGG", 'W'); hash.emplace("UGG", 'W');
 
-    hash.emplace("CTA", "L"); hash.emplace("CUA", "L");
-    hash.emplace("CTC", "L"); hash.emplace("CUC", "L");
-    hash.emplace("CTG", "L"); hash.emplace("CUG", "L");
-    hash.emplace("CTT", "L"); hash.emplace("CUU", "L"); hash.emplace("CTU", "L"); hash.emplace("CUT", "L");
+    hash.emplace("CTA", 'L'); hash.emplace("CUA", 'L');
+    hash.emplace("CTC", 'L'); hash.emplace("CUC", 'L');
+    hash.emplace("CTG", 'L'); hash.emplace("CUG", 'L');
+    hash.emplace("CTT", 'L'); hash.emplace("CUU", 'L'); hash.emplace("CTU", 'L'); hash.emplace("CUT", 'L');
     // ambiguous 3rd base
-    hash.emplace("CTM", "L"); hash.emplace("CUM", "L");
-    hash.emplace("CTR", "L"); hash.emplace("CUR", "L");
-    hash.emplace("CTW", "L"); hash.emplace("CUW", "L");
-    hash.emplace("CTS", "L"); hash.emplace("CUS", "L");
-    hash.emplace("CTY", "L"); hash.emplace("CUY", "L");
-    hash.emplace("CTK", "L"); hash.emplace("CUK", "L");
-    hash.emplace("CTV", "L"); hash.emplace("CUV", "L");
-    hash.emplace("CTH", "L"); hash.emplace("CUH", "L");
-    hash.emplace("CTD", "L"); hash.emplace("CUD", "L");
-    hash.emplace("CTB", "L"); hash.emplace("CUB", "L");
-    hash.emplace("CTX", "L"); hash.emplace("CUX", "L");
-    hash.emplace("CTN", "L"); hash.emplace("CUN", "L");
+    hash.emplace("CTM", 'L'); hash.emplace("CUM", 'L');
+    hash.emplace("CTR", 'L'); hash.emplace("CUR", 'L');
+    hash.emplace("CTW", 'L'); hash.emplace("CUW", 'L');
+    hash.emplace("CTS", 'L'); hash.emplace("CUS", 'L');
+    hash.emplace("CTY", 'L'); hash.emplace("CUY", 'L');
+    hash.emplace("CTK", 'L'); hash.emplace("CUK", 'L');
+    hash.emplace("CTV", 'L'); hash.emplace("CUV", 'L');
+    hash.emplace("CTH", 'L'); hash.emplace("CUH", 'L');
+    hash.emplace("CTD", 'L'); hash.emplace("CUD", 'L');
+    hash.emplace("CTB", 'L'); hash.emplace("CUB", 'L');
+    hash.emplace("CTX", 'L'); hash.emplace("CUX", 'L');
+    hash.emplace("CTN", 'L'); hash.emplace("CUN", 'L');
     // ambiguous 1st base
-    hash.emplace("YTA", "L"); hash.emplace("YUA", "L");
-    hash.emplace("YTG", "L"); hash.emplace("YUG", "L");
+    hash.emplace("YTA", 'L'); hash.emplace("YUA", 'L');
+    hash.emplace("YTG", 'L'); hash.emplace("YUG", 'L');
     // ambiguous 1st and 3rd base
-    hash.emplace("YTR", "L"); hash.emplace("YUR", "L");
+    hash.emplace("YTR", 'L'); hash.emplace("YUR", 'L');
 
-    hash.emplace("CCA", "P");
-    hash.emplace("CCC", "P");
-    hash.emplace("CCG", "P");
-    hash.emplace("CCT", "P"); hash.emplace("CCU", "P");
+    hash.emplace("CCA", 'P');
+    hash.emplace("CCC", 'P');
+    hash.emplace("CCG", 'P');
+    hash.emplace("CCT", 'P'); hash.emplace("CCU", 'P');
     // ambiguous 3rd base
-    hash.emplace("CCM", "P");
-    hash.emplace("CCR", "P");
-    hash.emplace("CCW", "P");
-    hash.emplace("CCS", "P");
-    hash.emplace("CCY", "P");
-    hash.emplace("CCK", "P");
-    hash.emplace("CCV", "P");
-    hash.emplace("CCH", "P");
-    hash.emplace("CCD", "P");
-    hash.emplace("CCB", "P");
-    hash.emplace("CCX", "P");
-    hash.emplace("CCN", "P");
+    hash.emplace("CCM", 'P');
+    hash.emplace("CCR", 'P');
+    hash.emplace("CCW", 'P');
+    hash.emplace("CCS", 'P');
+    hash.emplace("CCY", 'P');
+    hash.emplace("CCK", 'P');
+    hash.emplace("CCV", 'P');
+    hash.emplace("CCH", 'P');
+    hash.emplace("CCD", 'P');
+    hash.emplace("CCB", 'P');
+    hash.emplace("CCX", 'P');
+    hash.emplace("CCN", 'P');
 
-    hash.emplace("CAC", "H");
-    hash.emplace("CAT", "H"); hash.emplace("CAU", "H");
+    hash.emplace("CAC", 'H');
+    hash.emplace("CAT", 'H'); hash.emplace("CAU", 'H');
     // ambiguous 3rd base
-    hash.emplace("CAY", "H");
+    hash.emplace("CAY", 'H');
 
-    hash.emplace("CAA", "Q");
-    hash.emplace("CAG", "Q");
+    hash.emplace("CAA", 'Q');
+    hash.emplace("CAG", 'Q');
     // ambiguous 3rd base
-    hash.emplace("CAR", "Q");
+    hash.emplace("CAR", 'Q');
 
-    hash.emplace("CGA", "R");
-    hash.emplace("CGC", "R");
-    hash.emplace("CGG", "R");
-    hash.emplace("CGT", "R"); hash.emplace("CGU", "R");
+    hash.emplace("CGA", 'R');
+    hash.emplace("CGC", 'R');
+    hash.emplace("CGG", 'R');
+    hash.emplace("CGT", 'R'); hash.emplace("CGU", 'R');
     // ambiguous 3rd base
-    hash.emplace("CGM", "R");
-    hash.emplace("CGR", "R");
-    hash.emplace("CGW", "R");
-    hash.emplace("CGS", "R");
-    hash.emplace("CGY", "R");
-    hash.emplace("CGK", "R");
-    hash.emplace("CGV", "R");
-    hash.emplace("CGH", "R");
-    hash.emplace("CGD", "R");
-    hash.emplace("CGB", "R");
-    hash.emplace("CGX", "R");
-    hash.emplace("CGN", "R");
+    hash.emplace("CGM", 'R');
+    hash.emplace("CGR", 'R');
+    hash.emplace("CGW", 'R');
+    hash.emplace("CGS", 'R');
+    hash.emplace("CGY", 'R');
+    hash.emplace("CGK", 'R');
+    hash.emplace("CGV", 'R');
+    hash.emplace("CGH", 'R');
+    hash.emplace("CGD", 'R');
+    hash.emplace("CGB", 'R');
+    hash.emplace("CGX", 'R');
+    hash.emplace("CGN", 'R');
 
-    hash.emplace("ATA", "I"); hash.emplace("AUA", "I");
-    hash.emplace("ATC", "I"); hash.emplace("AUC", "I");
-    hash.emplace("ATT", "I"); hash.emplace("AUU", "I"); hash.emplace("ATU", "I"); hash.emplace("AUT", "I");
+    hash.emplace("ATA", 'I'); hash.emplace("AUA", 'I');
+    hash.emplace("ATC", 'I'); hash.emplace("AUC", 'I');
+    hash.emplace("ATT", 'I'); hash.emplace("AUU", 'I'); hash.emplace("ATU", 'I'); hash.emplace("AUT", 'I');
     // ambiguous 3rd base
-    hash.emplace("ATM", "I"); hash.emplace("AUM", "I");
-    hash.emplace("ATW", "I"); hash.emplace("AUW", "I");
-    hash.emplace("ATY", "I"); hash.emplace("AUY", "I");
-    hash.emplace("ATH", "I"); hash.emplace("AUH", "I");
+    hash.emplace("ATM", 'I'); hash.emplace("AUM", 'I');
+    hash.emplace("ATW", 'I'); hash.emplace("AUW", 'I');
+    hash.emplace("ATY", 'I'); hash.emplace("AUY", 'I');
+    hash.emplace("ATH", 'I'); hash.emplace("AUH", 'I');
 
-    hash.emplace("ATG", "M"); hash.emplace("AUG", "M");
+    hash.emplace("ATG", 'M'); hash.emplace("AUG", 'M');
 
-    hash.emplace("ACA", "T");
-    hash.emplace("ACC", "T");
-    hash.emplace("ACG", "T");
-    hash.emplace("ACT", "T"); hash.emplace("ACU", "T");
+    hash.emplace("ACA", 'T');
+    hash.emplace("ACC", 'T');
+    hash.emplace("ACG", 'T');
+    hash.emplace("ACT", 'T'); hash.emplace("ACU", 'T');
     // ambiguous 3rd base
-    hash.emplace("ACM", "T");
-    hash.emplace("ACR", "T");
-    hash.emplace("ACW", "T");
-    hash.emplace("ACS", "T");
-    hash.emplace("ACY", "T");
-    hash.emplace("ACK", "T");
-    hash.emplace("ACV", "T");
-    hash.emplace("ACH", "T");
-    hash.emplace("ACD", "T");
-    hash.emplace("ACB", "T");
-    hash.emplace("ACX", "T");
-    hash.emplace("ACN", "T");
+    hash.emplace("ACM", 'T');
+    hash.emplace("ACR", 'T');
+    hash.emplace("ACW", 'T');
+    hash.emplace("ACS", 'T');
+    hash.emplace("ACY", 'T');
+    hash.emplace("ACK", 'T');
+    hash.emplace("ACV", 'T');
+    hash.emplace("ACH", 'T');
+    hash.emplace("ACD", 'T');
+    hash.emplace("ACB", 'T');
+    hash.emplace("ACX", 'T');
+    hash.emplace("ACN", 'T');
 
-    hash.emplace("AAC", "N");
-    hash.emplace("AAT", "N"); hash.emplace("AAU", "N");
+    hash.emplace("AAC", 'N');
+    hash.emplace("AAT", 'N'); hash.emplace("AAU", 'N');
     // ambiguous 3rd base
-    hash.emplace("AAY", "N");
+    hash.emplace("AAY", 'N');
 
-    hash.emplace("AAA", "K");
-    hash.emplace("AAG", "K");
+    hash.emplace("AAA", 'K');
+    hash.emplace("AAG", 'K');
     // ambiguous 3rd base
-    hash.emplace("AAR", "K");
+    hash.emplace("AAR", 'K');
 
-    hash.emplace("AGC", "S");
-    hash.emplace("AGT", "S"); hash.emplace("AGU", "S");
+    hash.emplace("AGC", 'S');
+    hash.emplace("AGT", 'S'); hash.emplace("AGU", 'S');
     // ambiguous 3rd base
-    hash.emplace("AGY", "S");
+    hash.emplace("AGY", 'S');
 
-    hash.emplace("AGA", "R");
-    hash.emplace("AGG", "R");
+    hash.emplace("AGA", 'R');
+    hash.emplace("AGG", 'R');
     // ambiguous 3rd base
-    hash.emplace("AGR", "R");
+    hash.emplace("AGR", 'R');
     // ambiguous 1st base
-    hash.emplace("MGA", "R");
-    hash.emplace("MGG", "R");
+    hash.emplace("MGA", 'R');
+    hash.emplace("MGG", 'R');
     // ambiguous 1st and 3rd base
-    hash.emplace("MGR", "R");
+    hash.emplace("MGR", 'R');
 
-    hash.emplace("GTA", "V"); hash.emplace("GUA", "V");
-    hash.emplace("GTC", "V"); hash.emplace("GUC", "V");
-    hash.emplace("GTG", "V"); hash.emplace("GUG", "V");
-    hash.emplace("GTT", "V"); hash.emplace("GUU", "V"); hash.emplace("GTU", "V"); hash.emplace("GUT", "V");
+    hash.emplace("GTA", 'V'); hash.emplace("GUA", 'V');
+    hash.emplace("GTC", 'V'); hash.emplace("GUC", 'V');
+    hash.emplace("GTG", 'V'); hash.emplace("GUG", 'V');
+    hash.emplace("GTT", 'V'); hash.emplace("GUU", 'V'); hash.emplace("GTU", 'V'); hash.emplace("GUT", 'V');
     // ambiguous 3rd base
-    hash.emplace("GTM", "V"); hash.emplace("GUM", "V");
-    hash.emplace("GTR", "V"); hash.emplace("GUR", "V");
-    hash.emplace("GTW", "V"); hash.emplace("GUW", "V");
-    hash.emplace("GTS", "V"); hash.emplace("GUS", "V");
-    hash.emplace("GTY", "V"); hash.emplace("GUY", "V");
-    hash.emplace("GTK", "V"); hash.emplace("GUK", "V");
-    hash.emplace("GTV", "V"); hash.emplace("GUV", "V");
-    hash.emplace("GTH", "V"); hash.emplace("GUH", "V");
-    hash.emplace("GTD", "V"); hash.emplace("GUD", "V");
-    hash.emplace("GTB", "V"); hash.emplace("GUB", "V");
-    hash.emplace("GTX", "V"); hash.emplace("GUX", "V");
-    hash.emplace("GTN", "V"); hash.emplace("GUN", "V");
+    hash.emplace("GTM", 'V'); hash.emplace("GUM", 'V');
+    hash.emplace("GTR", 'V'); hash.emplace("GUR", 'V');
+    hash.emplace("GTW", 'V'); hash.emplace("GUW", 'V');
+    hash.emplace("GTS", 'V'); hash.emplace("GUS", 'V');
+    hash.emplace("GTY", 'V'); hash.emplace("GUY", 'V');
+    hash.emplace("GTK", 'V'); hash.emplace("GUK", 'V');
+    hash.emplace("GTV", 'V'); hash.emplace("GUV", 'V');
+    hash.emplace("GTH", 'V'); hash.emplace("GUH", 'V');
+    hash.emplace("GTD", 'V'); hash.emplace("GUD", 'V');
+    hash.emplace("GTB", 'V'); hash.emplace("GUB", 'V');
+    hash.emplace("GTX", 'V'); hash.emplace("GUX", 'V');
+    hash.emplace("GTN", 'V'); hash.emplace("GUN", 'V');
 
-    hash.emplace("GCA", "A");
-    hash.emplace("GCC", "A");
-    hash.emplace("GCG", "A");
-    hash.emplace("GCT", "A"); hash.emplace("GCU", "A");
+    hash.emplace("GCA", 'A');
+    hash.emplace("GCC", 'A');
+    hash.emplace("GCG", 'A');
+    hash.emplace("GCT", 'A'); hash.emplace("GCU", 'A');
     // ambiguous 3rd base
-    hash.emplace("GCM", "A");
-    hash.emplace("GCR", "A");
-    hash.emplace("GCW", "A");
-    hash.emplace("GCS", "A");
-    hash.emplace("GCY", "A");
-    hash.emplace("GCK", "A");
-    hash.emplace("GCV", "A");
-    hash.emplace("GCH", "A");
-    hash.emplace("GCD", "A");
-    hash.emplace("GCB", "A");
-    hash.emplace("GCX", "A");
-    hash.emplace("GCN", "A");
+    hash.emplace("GCM", 'A');
+    hash.emplace("GCR", 'A');
+    hash.emplace("GCW", 'A');
+    hash.emplace("GCS", 'A');
+    hash.emplace("GCY", 'A');
+    hash.emplace("GCK", 'A');
+    hash.emplace("GCV", 'A');
+    hash.emplace("GCH", 'A');
+    hash.emplace("GCD", 'A');
+    hash.emplace("GCB", 'A');
+    hash.emplace("GCX", 'A');
+    hash.emplace("GCN", 'A');
 
-    hash.emplace("GAC", "D");
-    hash.emplace("GAT", "D"); hash.emplace("GAU", "D");
+    hash.emplace("GAC", 'D');
+    hash.emplace("GAT", 'D'); hash.emplace("GAU", 'D');
     // ambiguous 3rd base
-    hash.emplace("GAY", "D");
+    hash.emplace("GAY", 'D');
 
-    hash.emplace("GAA", "E");
-    hash.emplace("GAG", "E");
+    hash.emplace("GAA", 'E');
+    hash.emplace("GAG", 'E');
     // ambiguous 3rd base
-    hash.emplace("GAR", "E");
+    hash.emplace("GAR", 'E');
 
-    hash.emplace("GGA", "G");
-    hash.emplace("GGC", "G");
-    hash.emplace("GGG", "G");
-    hash.emplace("GGT", "G"); hash.emplace("GGU", "G");
+    hash.emplace("GGA", 'G');
+    hash.emplace("GGC", 'G');
+    hash.emplace("GGG", 'G');
+    hash.emplace("GGT", 'G'); hash.emplace("GGU", 'G');
     // ambiguous 3rd base
-    hash.emplace("GGM", "G");
-    hash.emplace("GGR", "G");
-    hash.emplace("GGW", "G");
-    hash.emplace("GGS", "G");
-    hash.emplace("GGY", "G");
-    hash.emplace("GGK", "G");
-    hash.emplace("GGV", "G");
-    hash.emplace("GGH", "G");
-    hash.emplace("GGD", "G");
-    hash.emplace("GGB", "G");
-    hash.emplace("GGX", "G");
-    hash.emplace("GGN", "G");
+    hash.emplace("GGM", 'G');
+    hash.emplace("GGR", 'G');
+    hash.emplace("GGW", 'G');
+    hash.emplace("GGS", 'G');
+    hash.emplace("GGY", 'G');
+    hash.emplace("GGK", 'G');
+    hash.emplace("GGV", 'G');
+    hash.emplace("GGH", 'G');
+    hash.emplace("GGD", 'G');
+    hash.emplace("GGB", 'G');
+    hash.emplace("GGX", 'G');
+    hash.emplace("GGN", 'G');
 
     // add all untranslatable codons to the hash as X, includes uracyl
     std::string nucleotides = "ABCDGHKMNRSTUVWXY";
@@ -286,13 +286,13 @@ void populate_translate_hash(std::unordered_map<std::string, std::string>& hash,
         for(std::string::const_iterator b = nucleotides.begin(); b < nucleotides.end(); ++b) {
             for(std::string::const_iterator c = nucleotides.begin(); c < nucleotides.end(); ++c) {
                 char codon[] = {*a, *b, *c, 0};
-                hash.emplace(codon, "X");
+                hash.emplace(codon, 'X');
             }
         }
     }
 }
 
-void populate_complement_hash(std::unordered_map<std::string, std::string>& hash) {
+void populate_complement_hash(std::unordered_map<char, char>& hash) {
     /*
      * Complementation with ambiguity codes
      *
@@ -317,27 +317,27 @@ void populate_complement_hash(std::unordered_map<std::string, std::string>& hash
      */
 
     // Standard ones
-    hash.emplace("A", "T");
-    hash.emplace("T", "A");
-    hash.emplace("C", "G");
-    hash.emplace("G", "C");
+    hash.emplace('A', 'T');
+    hash.emplace('T', 'A');
+    hash.emplace('C', 'G');
+    hash.emplace('G', 'C');
 
     // Uracyl becomes A
-    hash.emplace("U", "A");
+    hash.emplace('U', 'A');
 
     // And all the ambiguous ones
-    hash.emplace("M", "K");
-    hash.emplace("R", "Y");
-    hash.emplace("W", "W");
-    hash.emplace("S", "S");
-    hash.emplace("Y", "R");
-    hash.emplace("K", "M");
-    hash.emplace("V", "B");
-    hash.emplace("H", "D");
-    hash.emplace("D", "H");
-    hash.emplace("B", "V");
-    hash.emplace("X", "X");
-    hash.emplace("N", "N");
+    hash.emplace('M', 'K');
+    hash.emplace('R', 'Y');
+    hash.emplace('W', 'W');
+    hash.emplace('S', 'S');
+    hash.emplace('Y', 'R');
+    hash.emplace('K', 'M');
+    hash.emplace('V', 'B');
+    hash.emplace('H', 'D');
+    hash.emplace('D', 'H');
+    hash.emplace('B', 'V');
+    hash.emplace('X', 'X');
+    hash.emplace('N', 'N');
 }
 
 bool get_sequence(std::istream& input, std::string& header, std::string& seq) {
@@ -377,10 +377,10 @@ void show_usage(char **argv) {
 
 int main(int argc, char **argv) {
     std::string h, allseq, seq, translated;
-    std::unordered_map<std::string, std::string> translate_hash;
-    std::unordered_map<std::string, std::string> complement_hash;
-    std::string stop = "*";
-    std::string bogus = "X";
+    std::unordered_map<std::string, char> translate_hash;
+    std::unordered_map<char,        char> complement_hash;
+    char stop = '*';
+    char bogus = 'X';
     std::string filename = "";
     std::shared_ptr<std::istream> file;
 
@@ -431,7 +431,7 @@ int main(int argc, char **argv) {
                 break;
 
             case 't':
-                stop = optarg;
+                stop = optarg[0];
                 break;
 
             case 'a':
@@ -443,7 +443,7 @@ int main(int argc, char **argv) {
                 break;
 
             case 'b':
-                bogus = "";
+                bogus = '\0';
                 break;
 
             case ':':   /* missing option argument */
@@ -517,7 +517,7 @@ int main(int argc, char **argv) {
         if (halt_on_stop)
             fprintf(stderr, "Will stop on first stop codon of each sequence\n");
 
-        fprintf(stderr, "Using %s as stop symbol\n", stop.c_str());
+        fprintf(stderr, "Using %c as stop symbol\n", stop);
 
         if (filename == "-") {
             fprintf(stderr, "Reading from STDIN\n");
@@ -540,10 +540,10 @@ int main(int argc, char **argv) {
             // otherwise
             if (direction && not_inverted) {
                 not_inverted = 0;
-                std::string revseq = "";
+                std::string revseq;
+                revseq.reserve(allseq.size());
                 for(std::string::const_iterator it = allseq.begin(); it < allseq.end(); ++it) {
-                    char base[] = {*it, 0};
-                    revseq += complement_hash[base];
+                    revseq += complement_hash[*it];
                 }
                 std::reverse(revseq.begin(), revseq.end());
                 allseq = revseq;
@@ -563,21 +563,14 @@ int main(int argc, char **argv) {
             else
                 std::cout << h << '\n';
 
-            if (halt_on_stop) {
+            for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
+                char codon[] = {*it, *(it+1), *(it+2), 0};
+                const char aa = translate_hash[codon];
+                // '\0' is used to skip bogus
+                if (aa != '\0') std::cout << aa;
                 // Need to check every aminoacid translated
-                for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
-                    char codon[] = {*it, *(it+1), *(it+2), 0};
-                    std::string aa = translate_hash[codon];
-                    std::cout << aa;
-
-                    if (aa == stop)
-                        break;
-                }
-            } else {
-                for(std::string::const_iterator it = seq.begin(); it < seq.end(); ++it, ++it, ++it) {
-                    char codon[] = {*it, *(it+1), *(it+2), 0};
-                    std::cout << translate_hash[codon];
-                }
+                if (halt_on_stop && aa == stop)
+                    break;
             }
 
             std::cout << '\n';
