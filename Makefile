@@ -1,11 +1,14 @@
 .PHONY: static clean
 
 fna2faa: fna2faa.cpp
+	@echo "Creating a normal build"
 	g++ -std=c++11 -O3 -o fna2faa fna2faa.cpp
 	strip fna2faa
 
 static: fna2faa-static
+
 fna2faa-static: fna2faa.cpp
+	@echo "Creating a static build"
 	g++ -std=c++11 -O3 -static -o fna2faa-static fna2faa.cpp
 	strip fna2faa-static
 
@@ -55,21 +58,11 @@ test: fna2faa
 	@echo "DONE"
 	@echo "No problems found"
 clean:
-	rm -f fna2faa fna2faa-static
+	rm -f fna2faa fna2faa-static fna2faa-*
 	rm -f result.stdout result.stderr
 
-benchmark: benchmark-long benchmark-short
-
-benchmark-long: fna2faa fna2faa-static
-	@echo ">> Running benchmark by piping 8 long sequences (343M nucleotides) <<"
-	@echo ">>>> Standard build (long sequences) <<<<"
-	@awk '{if ($$0 !~ /^>/) {for (i=0; i<1000000; i++) print} else {print}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
-	@echo ">>>> Static build (long sequences) <<<<"
-	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa-static --quiet - 1>/dev/null
-
-benchmark-short: fna2faa fna2faa-static
-	@echo ">> Running benchmark by piping 8M short sequences (343M nucleotides) <<"
-	@echo ">>>> Standard build (many short sequences) <<<<"
-	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa --quiet - 1>/dev/null
-	@echo ">>>> Static build (many short sequences) <<<<"
-	@awk '{a[NR]=$$0}END{for (i=0; i<1000000; i++){for(k in a){print a[k]}}}' tests/test.fa | /usr/bin/time -v ./fna2faa-static --quiet - 1>/dev/null
+benchmark:
+	@echo "Benchmarking normal build"
+	@./benchmark.sh HEAD~1
+	@echo "Benchmarking static build"
+	@./benchmark.sh --static HEAD~1
