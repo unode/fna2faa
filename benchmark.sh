@@ -19,7 +19,7 @@ exit 1; }
 CMD="fna2faa"
 
 # Parse args using getopt (instead of getopts) to allow arguments before options
-ARGS=$(getopt -o s: -l static: -n "$0" -- "$@")
+ARGS=$(getopt -o s -l static -n "$0" -- "$@")
 # reorganize arguments as returned by getopt
 eval set -- "$ARGS"
 
@@ -30,7 +30,6 @@ while true; do
         -s|--static)
             shift
             CMD="fna2faa-static"
-            shift
             ;;
         --)
             shift
