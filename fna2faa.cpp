@@ -376,7 +376,7 @@ void show_usage(char **argv) {
 }
 
 int main(int argc, char **argv) {
-    std::string h, seq, translated;
+    std::string h, seq;
     std::unordered_map<std::string, char> translate_hash;
     std::unordered_map<char,        char> complement_hash;
     char stop = '*';
@@ -385,12 +385,10 @@ int main(int argc, char **argv) {
     std::shared_ptr<std::istream> file;
 
     int do_all_frames = 0;  // one frame only by default
-    int active_frame, frame = 0;  // default 1st frame
+    int active_frame, output_frame = 0;  // default 1st frame
     int direction = 0;  // default forward
-    int not_inverted = 0;  // with 6 frame translation we can't invert at every frame switch
     // Used during iteration
     int start_frame, end_frame = 0;
-    int codon = 3;
     int halt_on_stop = 0;
     int verbose = 1;
     int show_help = 0;
@@ -414,7 +412,7 @@ int main(int argc, char **argv) {
 
         switch (c) {
             case 'f':
-                frame = atoi(optarg);
+                output_frame = atoi(optarg);
                 break;
 
             case 'h':
@@ -477,9 +475,9 @@ int main(int argc, char **argv) {
 
     filename = argv[optind];
 
-    if (frame < 0 || frame > 5) {
+    if (output_frame < 0 || output_frame > 5) {
         show_usage(argv);
-        fprintf(stderr, "\nERROR: Start frame (%i) is not in range 0 to 5\n", frame);
+        fprintf(stderr, "\nERROR: Start frame (%i) is not in range 0 to 5\n", output_frame);
         fprintf(stderr, "\nNOTE: 0-2 is forward strand, 3-5 is reverse strand\n");
         exit(1);
     }
@@ -488,8 +486,8 @@ int main(int argc, char **argv) {
         start_frame = 0;
         end_frame = 5;  // inclusive
     } else {
-        start_frame = frame;
-        end_frame = frame;
+        start_frame = output_frame;
+        end_frame = output_frame;
     }
 
     if (filename == "-") {
@@ -508,7 +506,7 @@ int main(int argc, char **argv) {
         if (do_all_frames) {
             fprintf(stderr, "Output will include all frames\n");
         } else {
-            set_frame_and_direction(frame, active_frame, direction);
+            set_frame_and_direction(output_frame, active_frame, direction);
             if (direction)
                 fprintf(stderr, "Will translate frame %i on strand <-\n", active_frame);
             else
@@ -530,7 +528,7 @@ int main(int argc, char **argv) {
     populate_complement_hash(complement_hash);
 
     while (get_sequence(*file, h, seq)) {
-        not_inverted = 1;
+        int not_inverted = 1;
 
         for (int frame = start_frame; frame <= end_frame; ++frame) {
             // Recalculate frame and direction based on current frame
